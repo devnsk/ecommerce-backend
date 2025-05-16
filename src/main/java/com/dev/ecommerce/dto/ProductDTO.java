@@ -1,46 +1,41 @@
-package com.dev.ecommerce.entity;
+package com.dev.ecommerce.dto;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import jakarta.persistence.*;
+import com.dev.ecommerce.entity.Product;
 import lombok.Data;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 
 import java.math.BigDecimal;
 import java.util.Date;
 
-@Entity
-@Table(name = "product")
-@Data
-public class Product {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+public class ProductDTO {
     private Long id;
-    @Column(name = "sku")
     private String sku;
-    @Column(name = "name")
     private String name;
-    @Column(name = "description")
     private String description;
-    @Column(name = "unit_price")
     private BigDecimal unitPrice;
-    @Column(name = "image_url")
     private String imageUrl;
-    @Column(name = "active")
     private boolean active;
-    @Column(name = "units_in_stock")
     private int unitsInStock;
-    @Column(name = "date_created")
-    @CreationTimestamp
     private Date dateCreated;
-    @Column(name = "last_updated")
-    @UpdateTimestamp
     private Date lastUpdated;
-    @ManyToOne
-    @JoinColumn(name = "category_id",nullable = false)
-    @JsonBackReference
-    private ProductCategory productCategory;
+    private Long categoryId; // Reference to ProductCategory by ID
+
+    // Constructor for creating a DTO from Product
+    public ProductDTO(Product product) {
+        this.id = product.getId();
+        this.sku = product.getSku();
+        this.name = product.getName();
+        this.description = product.getDescription();
+        this.unitPrice = product.getUnitPrice();
+        this.imageUrl = product.getImageUrl();
+        this.active = product.isActive();
+        this.unitsInStock = product.getUnitsInStock();
+        this.dateCreated = product.getDateCreated();
+        this.lastUpdated = product.getLastUpdated();
+        this.categoryId = product.getProductCategory() != null ? product.getProductCategory().getId() : null;
+    }
+
+    // Empty constructor for POST requests
+    public ProductDTO() {}
 
     public boolean isActive() {
         return active;
@@ -48,6 +43,14 @@ public class Product {
 
     public void setActive(boolean active) {
         this.active = active;
+    }
+
+    public Long getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(Long categoryId) {
+        this.categoryId = categoryId;
     }
 
     public Date getDateCreated() {
@@ -96,14 +99,6 @@ public class Product {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public ProductCategory getProductCategory() {
-        return productCategory;
-    }
-
-    public void setProductCategory(ProductCategory productCategory) {
-        this.productCategory = productCategory;
     }
 
     public String getSku() {

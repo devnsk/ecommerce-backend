@@ -21,4 +21,28 @@ public class ProductCategory {
     @OneToMany(cascade = CascadeType.ALL,mappedBy="productCategory", fetch = FetchType.EAGER)
     @JsonManagedReference
     private Set<Product> products;
+
+    public String getCategoryName() {
+        return categoryName;
+    }
+
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Set<Product> getProducts() {
+        return products;
+    }
+
+    public void setProducts(Set<Product> products) {
+        this.products = products;
+    }
 }
