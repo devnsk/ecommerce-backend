@@ -1,5 +1,6 @@
 package com.dev.ecommerce.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
@@ -38,6 +39,7 @@ public class Product {
     private Date lastUpdated;
     @ManyToOne
     @JoinColumn(name = "category_id",nullable = false)
+    @JsonBackReference
     private ProductCategory productCategory;
 
 }

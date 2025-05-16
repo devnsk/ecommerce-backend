@@ -1,5 +1,6 @@
 package com.dev.ecommerce.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -18,5 +19,6 @@ public class ProductCategory {
     @Column(name = "category_name")
     private String categoryName;
     @OneToMany(cascade = CascadeType.ALL,mappedBy="productCategory", fetch = FetchType.EAGER)
+    @JsonManagedReference
     private Set<Product> products;
 }
