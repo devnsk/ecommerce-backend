@@ -7,6 +7,8 @@ import com.dev.ecommerce.entity.Product;
 import com.dev.ecommerce.entity.ProductCategory;
 import com.dev.ecommerce.service.ProductService;
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -44,6 +46,9 @@ public class ProductServiceImpl implements ProductService {
         return new ProductDTO(product);
     }
 
+    // Get Products By id
+
+
     // Update
     public ProductDTO updateProduct(Long id, ProductDTO productDTO) {
         Product product = productRepository.findById(id)
@@ -75,5 +80,21 @@ public class ProductServiceImpl implements ProductService {
                     .orElseThrow(() -> new EntityNotFoundException("ProductCategory not found with id: " + productDTO.getCategoryId()));
             product.setProductCategory(category);
         }
+    }
+
+    public Page<Product> getProductsByCategoryId(Long categoryId, Pageable pageable) {
+        if (categoryId == null || pageable == null) {
+            throw new IllegalArgumentException("Category ID and pageable must not be null");
+        }
+        Page<Product> products = productRepository.findByProductCategoryId(categoryId, pageable);
+//        products.getContent().forEach(product -> {
+//            if (product.getImageUrl() != null && !product.getImageUrl().isEmpty()) {
+//                String cloudinaryUrl = cloudinary.url()
+//                        .transformation(new Transformation().width(200).height(200).crop("fill"))
+//                        .generate(product.getImageUrl());
+//                product.setImageUrl(cloudinaryUrl);
+//            }
+//        });
+        return products;
     }
 }
