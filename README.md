@@ -79,5 +79,25 @@ _(Use this to change only the category name.)_
 **Response:**  
 **204 No Content**
 
----
 
+### **Upload Image to Cloudinary**  
+**POST** `/cloudinary/image`  
+
+**Request Parameters (Form Data):**
+
+| Name   | Type | Required | Description           |
+|--------|------|----------|-----------------------|
+| image  | File | Yes      | The image file to upload |
+
+**Sample Response:**
+```json
+{
+  "asset_id": "abc123",
+  "public_id": "SpringProject/sample-image",
+  "url": "http://res.cloudinary.com/your_cloud_name/image/upload/v1234567890/SpringProject/sample-image.jpg",
+  "secure_url": "https://res.cloudinary.com/your_cloud_name/image/upload/v1234567890/SpringProject/sample-image.jpg",
+  "folder": "SpringProject",
+  "format": "jpg",
+  "resource_type": "image",
+  "created_at": "2025-05-18T10:00:00Z"
+}
