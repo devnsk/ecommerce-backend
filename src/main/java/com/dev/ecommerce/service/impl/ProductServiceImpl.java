@@ -97,4 +97,11 @@ public class ProductServiceImpl implements ProductService {
 //        });
         return products;
     }
+    public Page<Product> searchProductsByName(String name, Pageable pageable) {
+        if (name == null || name.trim().isEmpty()) {
+            // Handle empty search term: return all products or throw an exception
+            return productRepository.findAll(pageable);
+        }
+        return productRepository.findByNameContaining(name, pageable);
+    }
 }

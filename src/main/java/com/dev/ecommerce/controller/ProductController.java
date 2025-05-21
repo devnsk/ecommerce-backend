@@ -68,4 +68,14 @@ public class ProductController {
             return ResponseEntity.badRequest().body(null);
         }
     }
+    /*
+    search product functionality
+     */
+    @GetMapping("/search")
+    public ResponseEntity<Page<Product>> searchProducts(
+            @RequestParam(value = "name", required = false) String name,
+            @PageableDefault(size = 10) Pageable pageable) {
+        Page<Product> products = productService.searchProductsByName(name, pageable);
+        return ResponseEntity.ok(products);
+    }
 }
