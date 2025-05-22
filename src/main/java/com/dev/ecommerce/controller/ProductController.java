@@ -6,8 +6,9 @@ import com.dev.ecommerce.service.ProductService;
 import com.dev.ecommerce.service.impl.ProductServiceImpl;
 
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -34,7 +35,7 @@ public class ProductController {
     }
 
     // Read (All)
-    @GetMapping
+    @GetMapping("/all")
     public List<ProductDTO> getAllProducts() {
         return productService.getAllProducts();
     }
@@ -77,5 +78,13 @@ public class ProductController {
             @PageableDefault(size = 10) Pageable pageable) {
         Page<Product> products = productService.searchProductsByName(name, pageable);
         return ResponseEntity.ok(products);
+    }
+    @GetMapping
+    public Page<Product> getProducts(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "0") Long categoryId) {
+        Pageable pageable = PageRequest.of(page, size);
+        return productService.getProducts(categoryId, pageable);
     }
 }

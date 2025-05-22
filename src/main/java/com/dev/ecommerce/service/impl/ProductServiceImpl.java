@@ -104,4 +104,11 @@ public class ProductServiceImpl implements ProductService {
         }
         return productRepository.findByNameContaining(name, pageable);
     }
+
+    public Page<Product> getProducts(Long categoryId, Pageable pageable) {
+        if (categoryId != null && categoryId != 0) {
+            return productRepository.findByProductCategoryId(categoryId, pageable);
+        }
+        return productRepository.findAll(pageable);
+    }
 }
